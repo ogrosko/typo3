@@ -4640,7 +4640,7 @@ class DataHandler implements LoggerAwareInterface
             // Fetch the live record
             // @todo: this needs to be revisited, as getRecordLocalization() does a BackendWorkspaceRestriction
             // based on $GLOBALS[BE_USER], which could differ from the $this->BE_USER->workspace value
-            $parentRecordLocalization = BackendUtility::getRecordLocalization($table, $id, $command['language'], 'AND t3ver_oid=0');
+            $parentRecordLocalization = BackendUtility::getRecordLocalization($table, $id, $command['language'], BackendUtility::isTableWorkspaceEnabled($table) ? 'AND t3ver_oid=0' : '');
             if (empty($parentRecordLocalization)) {
                 if ($this->enableLogging) {
                     $this->log($table, $id, SystemLogGenericAction::UNDEFINED, 0, SystemLogErrorClassification::MESSAGE, 'Localization for parent record ' . $table . ':' . $id . '" cannot be fetched', -1, [], $this->eventPid($table, $id, $parentRecord['pid']));
